@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+    <style>
+    html, body {
+        height: 100%;
+        overflow: hidden;
+        margin: 0;
+    }
+    .wrapper {
+        height: 100%;
+    }
+    #space{
+        float:left;
+        padding-top: 25px;
+    }
+    #button-space {
+        width: 265px !important;
+        height: 165px !important;
+        white-space: normal;
+        word-wrap: break-word;
+        background-color:white;
+        border: 3px solid black;
+    }
+    #button-space:hover{
+        background-color:slategrey;
+        color: white;
+        border: 3px solid black;
+    }
+    #side_button{
+        background-color: white;
+        width: 40%;
+        color: black;
+        border: 2px solid black;
+    }
+    #left-column{
+        height: 100%;
+        padding-bottom: 90px;
+        width: 75%;
+        float:left;
+        padding-left:60px;
+        overflow:auto;
+    }
+    #right-column{
+        text-align:center;
+        border-left: 2px solid black;
+        width: 25%;
+        float:right;
+        height:700px;
+        word-wrap: break-word;
+    }
+    img{
+        height: auto;
+        width: auto;
+        max-width: 250px;
+        max-height: 200px;
+    }
+    </style>
+<!-- Creation of Body -->
+<div class="wrapper">
+    <div class="container" id="left-column">
+        <h3>
+            Welcome,&nbsp {{ member.name }}
+        </h3>
+        <h1 align="center"><b>
+            Work Spaces
+
+          </b>
+        </h1>
+        <br>
+        {% for space in spaces %}
+            <div class="box" id="space">
+
+            <button class="btn btn-large" id="button-space" onclick="window.location.href='/space/{{ space.url }}'">
+                    <h3>{{ space.name }}<br></h3>
+                    <p><small><b>{{ space.description }}</b></small></p>
+                    {% if member.owner == False %}
+                    <h5>Owner: {{ space.teacher }}</h5>
+                    {% endif %}
+            </button>
+            &nbsp;
+            &nbsp;
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="container" id="right-column">
+        <h1>{{ member.name }}</h1>
+
+            <h3>Bio:</h3>
+                {% if member.skills != "" and member.skills != "No bio has been added yet." and member.skills != "No skills have been added yet."%}
+                <h4>{{ member.skills }}</h4>
+                {% else %}
+                <i>You have not entered a bio. Go to edit profile to input a brief bio.</i>
+                {% endif %}
+
+
+    <br>
+    <br>
+    <br>
+    {% if not member.owner %}
+    <button class="btn btn-large" id="side_button" onclick="window.location.href='/{{ member.username }}/teams/'">Your Teams</button>
+    {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+    <style>
+    #header{
+        padding-top: 10px;
+    }
+    label {
+        font-size: 24px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        top: 0.5em !important;
+    }
+    input {
+        font-family: 'Spectral',sans-serif;
+        margin-bottom: 2em !important;
+    }
+    .container{
+        padding: 3% 0;
+        text-align: center;
+    }
+    .btn-large{
+        width:100px;
+        height:50px;
+        background-color:rgba(0,0,0,0.20);
+    }
+    .btn-large:hover{
+        background-color:rgba(0,0,0,0.10);
+    }
+    input{
+        font-weight:bold;
+    }
+
+    #submit-button{
+        background-color: green;
+        color: white;
+    }
+    #error{
+        color: red;
+    }
+textarea{
+    width: 300px;
+  height: 100px;
+}
+</style>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Project</title>
+</head>
+<body>
+{% if errormsg != "" %}
+<div id="error">
+    <p align="center"><b>{{ errormsg }}</b></p>
+</div>
+{% endif %}
+<center><h2>Create a New Project</h2></center>
+<form method="post" name="CreateProject">
+{% csrf_token %}
+    <div class="container" id="container">
+        <div id="input" class="row">
+            <div class="input-field col s12">
+                <label for="Project Name">Project Name</label>
+                <br>
+                <input autocomplete="off" name="Project" placeholder="" type="text">
+            </div>
+            <br>
+            <div class="col s12 m6 l6">
+                <label for="Description Name">Description</label>
+                <br>
+            <textarea name="Description" placeholder=""></textarea>
+            </div>
+            <br>
+            <div class="input-field col s12">
+                <label for="Qualifications">Qualifications</label>
+                <br>
+                <input autocomplete="off" name="Qualifications" placeholder="" type="text">
+            </div>
+            <br>
+            <br>
+            <div id="submit">
+                <button id="submit-button" class="btn btn-large">CREATE</button>
+            </div>
+        </div>
+        <div id="output" class="row" style="display: none"></div>
+    </div>
+   </form>
+
+
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'basenolog.html' %}
+
+{% block body %}
+<style>
+    #right{
+        float:right;
+        padding-right: 200px;
+        padding-top: 100px;
+    }
+    .btn-large{
+        width: 30%;
+        height: 10%;
+        font-size: 150%;
+        background-color:rgba(0,0,0,0.20)
+    }
+    .btn-large:hover{
+        background-color:rgba(0,0,0,0.10);
+    }
+    #right{
+        text-align:center;
+    }
+    #left{
+        padding-left:10%;
+        padding-top: 5%;
+    }
+    img{
+        width: auto;
+        height: 75%;
+    }
+    #side_button{
+        background-color: white;
+        width: 100%;
+        color: black;
+        border: 4px solid black;
+    }
+</style>
+
+
+<div id="right">
+    {% if member == None %}
+    <h1>Get Started</h1>
+    <button id="side_button" class="btn btn-large" onclick="window.location.href='/login/'"><span class="glyphicon glyphicon-user"></span> Login</button><br><br>
+    <button id="side_button" class="btn btn-large" onclick="window.location.href='/forgot_password/'"><span class="glyphicon glyphicon-question-sign"></span> Forgot Password</button>
+    {% else %}
+    <button id="side_button" class="btn btn-large" onclick="window.location.href='/profile_redirect/'"><span class="glyphicon glyphicon-home"></span>   My Profile  </button><br><br>
+    <button id="side_button" class="btn btn-large" onclick="window.location.href='/logout/'"><span class="glyphicon glyphicon-log-out"></span> Logout</button>
+
+    {% endif %}
+</div>
+
+<div id="left">
+<h3 align="center">{{ msg }}</h3>
+{% load static %}
+    <img src="{% static "facebook-vanderbilt.jpg" %}" height="60%" width="auto"/>
+</div>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{% load mathfilters %}
+
+    <style>
+    .jumbotron{
+        background-color: white;
+        border: 2px solid black;;
+    }
+    label{
+        font-size:150%;
+    }
+    #single-email-box{
+        margin-left:25%;
+        width:20%;
+    }
+    #file-input{
+        float:left;
+        margin-left:35%;
+        width:18%;
+    }
+    #submit{
+        float:right;
+        margin-right:34%;
+          background: green;
+          color: white;
+        border:none;
+        height:5%;
+        width:12%;
+          border-radius: 4px;
+    }
+    #side_button{
+        background-color: white;
+        width: 15%;
+        color: black;
+        border: 2px solid black;
+    }
+    #files-confirmation{
+        font-size: 1.5em;
+    }
+    </style>
+
+    <p align = 'center'><b>{{ msg }}</b></p>
+    {% if were_adds %}
+        <div id="files-confirmation" align="center">
+        <h2 style="color:green">{{ total_added }} emails were processed.</h2>
+        <br>
+        {% if ra %}
+            <p>{{ registered_adds.count }}</p>
+        <b>The following {{ registered_adds.count }} registered users were added to the space:</b>
+        <br>
+        {% for name in registered_adds %}
+        {{ name }}
+            {% if forloop.counter|mod:5 == 0 %} <br> {% else %} &nbsp;&nbsp;&nbsp; {% endif %}
+        {% endfor %}
+        <br>
+            {% endif %}
+        {% if ura %}
+            <p>{{ non_registered_adds.count }}</p>
+        <b>The following {{ non_registered_adds.count }} un-registered users were invited to the site:</b>
+        {% for email in non_registered_adds %}
+        {{ email }}
+            {% if forloop.counter|mod:5 == 0 %} <br> {% else %} &nbsp;&nbsp;&nbsp; {% endif %}
+        {% endfor %}
+        <br>
+            {% endif %}
+        {% if aa %}
+            <p>{{ already_added.count }}</p>
+        <b>The following emails had already been invited to the space and were not sent an additional email:</b>
+        <br>
+        {% for email in already_added %}
+        {{ email }}
+            {% if forloop.counter|mod:5 == 0 %} <br> {% else %} &nbsp;&nbsp;&nbsp; {% endif %}
+        {% endfor %}
+            {% endif %}
+    {% endif %}
+    </div>
+
+    <div class="container">
+        <div class="jumbotron">
+            <div class="jumbotron-heading">
+                <h2 align="center">
+                    Enter a single email or upload a CSV file to add members to {{ space.name }}
+                </h2>
+                <br>
+            </div>
+
+            <form method="post" action="/{{ space.url }}/addmembers" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="container" id="container">
+                <div id="input" class="row">
+                    <center><label id='single-email' for="Email">Enter Single Email:</label>
+                <br>
+                <input autocomplete="off" name="Email" placeholder="Email" type="text" id="single-email-box">
+                    <button class="btn btn-large" id="submit">Submit</button></center>
+
+            </div>
+                </div>
+                <br>
+                 <br>
+                <br>
+                <center><label id="multi-email" for="Input CSV File">Input CSV File:</label></center>
+                    <br>
+                    <div id="files">
+                    <input id='file-input' type="file" name="csv_file"  accept=".csv"/>
+                <input id="submit" type="submit" value="Upload" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <p align = "center"><button class="btn btn-large" id="side_button" onclick="window.location.href='/space/{{ space.url }}/'"><b>Back to {{ space.name }}</b></button>
+    </p>
+
+
+{% endblock %}

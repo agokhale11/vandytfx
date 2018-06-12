@@ -1,0 +1,49 @@
+{% extends 'basenolog.html' %}
+
+{% block body %}
+
+<style>
+    button{
+        background-color:rgba(0,0,0,0.30);
+}
+    button:hover {
+        background-color:rgba(0,0,0,0.10);
+}
+    .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+}
+    #login-button{
+            background-color: green;
+            color: white;
+    }
+    #register-button{
+            background-color: black;
+            color: white;
+    }
+
+</style>
+
+<div class="container">
+    <div class="jumbotron">
+        <div class="jumbotron-heading">
+           <center><h1>Login</h1></center>
+        </div>
+        <br/>
+    <form method="post" action="/login/">
+        {% csrf_token %}
+        <h2>Username:</h2><br/>
+        {{ form.username }}<br/><br/>
+        <h2>Password:</h2><br/>
+        {{ form.password }}<br/><br/>
+        <br/>
+        <button id="login-button" type="submit" class="pull-left btn">Login</button>
+        <button id="register-button" onclick="window.location.href='/'" class="pull-right btn">Home</button>
+    </form>
+</div>
+</div>
+
+
+{% endblock %}
+

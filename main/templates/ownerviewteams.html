@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <style>
+
+    #teams{
+        margin-left:15%;
+        background-color: white;
+        padding: 7px 7px 7px 7px;
+        margin-top: 14px;
+        width:25%;
+        height: 12%;
+        border: 4px solid black;
+        text-align: center;
+        font-size: 200%;
+    }
+    #teams:hover{
+        background-color: slategrey;
+        color: white;
+    }
+
+    </style>
+<body>
+        <br>
+        <h1 align="center">Click on any of your spaces to see the teams.</h1>
+        <br>
+        {% for space in spaces %}
+            <button class="btn btn-large" id="teams" onclick="window.location.href='/{{ space.url }}/all_teams/'"><b>{{ space.name }}</b></button>
+
+        {% endfor %}
+</body>
+{% endblock %}

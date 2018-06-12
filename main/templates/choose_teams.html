@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+
+{% load mathfilters %}
+{% block body %}
+<style>
+    label {
+        font-size: 100%;
+        letter-spacing: 1px;
+        top: 0.5em !important;
+    }
+    input {
+        font-family: 'Spectral',sans-serif;
+        margin-bottom: 2em !important;
+    }
+    input{
+        font-weight:bold;
+        font-size: larger;
+
+    }
+    form{
+        text-align:center;
+    }
+    #side_button{
+        background-color: white;
+        width: 16%;
+        height: 8%;
+        font-size: 150%;
+        color: black;
+        border: 2px solid black;
+    }
+    table{
+        background-color: transparent;
+    }
+th{
+    padding: 8px;
+}
+td {
+    padding: 6px;
+}
+#password{
+    margin-top:3px;
+}
+tr:nth-child(even) {background: whitesmoke}
+tr:nth-child(odd) {background: white}
+
+</style>
+
+{% if space.teams_decided %}
+    <h4 align="center" color="green">The teams below has been finalized. Members of this space see their teams as they are below.</h4>
+{% else %}
+<h4 align="center" color="red">This space does not have finalized teams.</h4>
+    {% endif %}
+
+<h1 align="center">
+    Compare Teams
+</h1>
+{% if master_teams != None %}
+<center><h3>{{ msg }}</h3></center>
+<form action="/choose_teams/{{ space.url }}/" method="post">
+        {% csrf_token %}
+        <table id = "Table" align="center">
+            <tr>
+            <th>
+                Algorithm
+            </th>
+
+            <th>
+                Group Size
+            </th>
+
+            <th>
+                Iterative Soulmates
+            </th>
+            <th>
+                Teams
+            </th>
+            <th>
+                Select to be Finalized
+            </th>
+            </tr>
+        {% for master_team in master_teams %}
+
+            <tr>
+
+                <td width="12%">
+                    <label for="Space Name">{{ master_team.algorithm_type }} &nbsp;</label>
+                </td>
+
+                <td width="8%">
+                    <label for="Space Name">{{ master_team.number_of_members }} &nbsp;</label>
+                </td>
+
+                <td width="10%">
+                    <label for="Space Name"> {% if master_team.iterative_soulmates %} Yes {% else %} No {% endif %} &nbsp;</label>
+                </td>
+
+                <td width="58%">
+
+                    {% for team in master_team.team_set.all %}
+                        {{ forloop.counter }}: {{ team }} {% if forloop.counter|mod:3 == 0 %} <br> {% else %} &nbsp;&nbsp;&nbsp; {% endif %}
+                    {% endfor %}
+                </td>
+
+                <td align="center" width="12%">
+                <input autocomplete="off" name={{ master_team.id }} placeholder="" type="checkbox"/>
+                </td>
+
+
+
+            </tr>
+
+        {% endfor %}
+
+        </table>
+        <br>
+        <input id="side_button" type="submit" value="Finalize Teams" /> <br>
+
+    </form>
+    {% else %}
+    <h3 align="center">There are not any teams to choose from.</h3>
+    {% endif %}
+    <div align="center">
+            <button class="btn btn-large" id="side_button" onclick="window.location.href='/{{ space.url }}/form_teams/'"><b>Add Another Choice</b></button>
+
+    </div>
+{% endblock %}

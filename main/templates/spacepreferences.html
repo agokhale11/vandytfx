@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<style>
+table{
+        background-color: transparent;
+    }
+th{
+    padding: 10px;
+
+}
+td {
+    padding: 10px;
+    width: 400px;
+    border-right: 10px;
+    border-right-color: black;
+
+}
+tr:nth-child(even) {background: whitesmoke}
+tr:nth-child(odd) {background: white}
+
+</style>
+
+<table id = "Table" align="center">
+    <tr>
+        <th>
+           <b><u>Name</u></b>
+        </th>
+
+        <th>
+           <b><u>Peer Preferences</u></b>
+        </th>
+
+        <th>
+           <b><u>Project Preferences</u></b>
+        </th>
+
+    </tr>
+
+{% for preference in preferences %}
+
+    <tr>
+    <td>
+        {{ preference.member.name }}
+    </td>
+
+    <td>
+        {{ preference.preferences_as_names }}
+    </td>
+
+    <td>
+        {{ preference.projects_ranking }}
+    </td>
+    </tr>
+
+
+{% endfor %}
+
+
+</table>
+
+
+{% endblock %}

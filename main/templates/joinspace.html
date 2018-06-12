@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<style>
+    label {
+        font-size: 24px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        top: 0.5em !important;
+    }
+    input {
+        font-family: 'Spectral',sans-serif;
+        margin-bottom: 2em !important;
+    }
+    input{
+        font-weight:bold;
+        font-size: larger;
+
+    }
+    form{
+        text-align:center;
+    }
+    table{
+        background-color: transparent;
+    }
+th{
+    padding: 8px;
+}
+td {
+    padding: 6px;
+}
+#password{
+    margin-top:3px;
+}
+tr:nth-child(even) {background: whitesmoke}
+tr:nth-child(odd) {background: white}
+
+</style>
+
+
+
+<h1 align="center">
+    Join New Spaces
+</h1>
+<center><h3>{{ msg }}</h3></center>
+{% if are_spaces %}
+<form action="/{{ member.username }}/joinspace/" method="post">
+        {% csrf_token %}
+        <table id = "Table" align="center">
+            <tr>
+            <th>
+                Space Name
+            </th>
+
+            <th>
+                Owner
+            </th>
+
+            <th>
+                Password
+            </th>
+            <th>
+                Check Box to Join
+            </th>
+            </tr>
+        {% for space in spaces %}
+
+            <tr>
+
+                <td>
+                    <label for="Space Name">{{ space.name }} &nbsp;</label>
+                </td>
+
+                <td>
+                    <label for="Space Name">{{ space.teacher }} &nbsp;</label>
+                </td>
+
+                <td id="password">
+                    <input id="password" autocomplete="off" name = {{ space.url }}Password placeholder="" type="password">
+                </td>
+
+                <td align="center">
+                <input autocomplete="off" name= {{ space.url }} placeholder="" type="checkbox">
+                </td>
+
+
+
+            </tr>
+
+        {% endfor %}
+        </div>
+        </div>
+        </table>
+        <br>
+        <input type="submit" value="Join" />
+    </form>
+    {% else %}
+    <h3 align="center">There are not currently any spaces for you to join.</h3>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<style>
+table{
+        background-color: transparent;
+    }
+th{
+    padding: 10px;
+
+}
+td {
+    padding: 10px;
+    width: 400px;
+    border-right: 10px;
+    border-right-color: black;
+
+}
+tr:nth-child(even) {background: whitesmoke}
+tr:nth-child(odd) {background: white}
+
+</style>
+
+<table id = "Table" align="center">
+    <tr>
+        <th>
+           <b><u>Space Name</u></b>
+        </th>
+
+        <th>
+           <b><u>Progress</u></b>
+        </th>
+
+    </tr>
+
+{% for space in spaces %}
+    <tr>
+    <td>
+        <h3><a href="/{{ member.username }}/{{ space.url }}/preferences">{{ space.name }}</a></h3>
+    </td>
+
+    <td>
+        <div class="progress">
+        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+            aria-valuenow={{ percentages.pop }} aria-valuemin="0" aria-valuemax="100" style="width:{{ percentages.pop }}%">
+            {{ percentages.pop }}% Complete
+        </div>
+    </div>
+    </td>
+
+    </tr>
+{% endfor %}
+
+
+</table>
+
+
+{% endblock %}

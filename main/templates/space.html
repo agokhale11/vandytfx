@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<style>
+    html, body {
+        height: 100%;
+        overflow: hidden;
+        margin: 0;
+    }
+    #content {
+        height: 100%;
+    }
+    #left{
+        width: 25%;
+        height: 100%;
+        float: left;
+        padding-left:100px;
+    }
+    #middle{
+        text-align: center;
+        width: 50%;
+        height: 100%;
+        float: left;
+        padding-left:0;
+        overflow: auto;
+        padding-bottom:100px;
+    }
+    #right{
+        width: 25%;
+        height: 100%;
+        position: relative;
+        float: right;
+        padding-left:40px;
+        padding-right:40px;
+        padding-bottom: 120px;
+        overflow:auto;
+        border-left: 2px solid black;
+    }
+    #button-project {
+        width: 200px;
+        height: 150px;
+        white-space: normal;
+        word-wrap: break-word;
+        background-color:rgba(0,0,0,0.20);
+        border-radius: 15px;
+    }
+    #button-project:hover{
+        -webkit-transform: scale(1.05,1.07);
+    -webkit-transition-timing-function: ease-out;
+    -webkit-transition-duration: 250ms;
+    -moz-transform: scale(1.05,1.07);
+    -moz-transition-timing-function: ease-out;
+    -moz-transition-duration: 250ms;
+    }
+    .close-icon{
+        display:block;
+        width:15px;
+          height:15px;
+          border-radius:100%;
+        border-color: rgba(0, 0, 0, 0);
+          background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, rgba(0, 0, 0, 0.33) 46%, rgba(0, 0, 0, 0.34) 56%,transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, rgba(0, 0, 0, 0.33) 46%, rgba(0, 0, 0, 0.34) 56%,transparent 56%, transparent 100%);
+          transition: all 0.3s ease;
+       margin-left: 160px;
+        clear:both;
+        position:relative;
+        margin-bottom:25px;
+    }
+    .close-icon:hover{
+        background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, rgba(0, 0, 0, 0.7) 46%, rgba(0, 0, 0, 0.69) 56%,transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, rgba(0, 0, 0, 0.69) 46%, rgba(0, 0, 0, 0.69) 56%,transparent 56%, transparent 100%);
+        width:20px;
+          height:20px;
+    }
+    #project{
+        float:left;
+        padding-top: 25px;
+        padding-left: 25px;
+    }
+    #buttons{
+        padding-left:75px;
+    }
+
+    #students{
+        width: 260px;
+        border:2px solid black;
+        text-align: center;
+        border-radius: 15px;
+    }
+    #students-icon{
+        margin-left:230px;
+        margin-bottom:8px;
+        margin-top:5px;
+    }
+    #right h2{
+        padding-left: 50px;
+        padding-bottom: 20px;
+    }
+    #side_button{
+        background-color: white;
+        width: 70%;
+        color: black;
+        border: 2px solid black;
+    }
+    #rank-button{
+        background-color: green;
+        color: white;
+        width: 60%;
+    }
+    #student_text{
+    }
+    #words{
+        padding-bottom: 40px;
+    }
+    hr{
+        border-width: 4px;
+    }
+    #button-students{
+        background-color:transparent;
+        padding-left:0.1px;
+    }
+    .modal-header{
+        text-align: center;
+    }
+    img{
+        height: auto;
+        width: auto;
+        max-width: 200px;
+        max-height: 200px;
+    }
+      #run-algorithms{
+      background-color: green;
+      color: white;
+      width: 75%;
+      height: 5%;
+      font-size: 1.3em;
+    }
+#Teams{
+    background-color: blue;
+    color: white;
+    width: 75%;
+    height: 5%;
+    border: 1px solid black;
+}
+</style>
+<div id="content">
+    <div id="left">
+    <h1>{{ space.name }}</h1>
+    <small color="gray">{{ space.description }}</small>
+    <br><br><br>
+    {% if member.owner %}
+        <button class="btn btn-large" id="side_button" onclick="window.location.href='/{{ space.url }}/createproject'"><b>Create Project</b></button>
+        <br>
+        <br>
+        <button class="btn btn-large" id="side_button" onclick="window.location.href='/{{ space.url }}/addmembers'"><b>Add Members</b></button>
+        <br>
+        <br>
+        {% if non_registered_members.count != 0 %}
+        <button class="btn btn-large" id="side_button" onclick="window.location.href='/{{ space.url }}/send_reminders'"><b>Send Reminders ({{ non_registered_members.count }})</b></button>
+        <br>
+        <br>
+        {% endif %}
+        <form action =  "/space/{{ space.url }}/" method = post>
+        {% csrf_token %}
+        <button class="btn btn-large" id="side_button" type="submit"><b>Forgot Password</b></button>
+        </form>
+        <br>
+        <br>
+        <button class="btn btn-large" id="side_button" style="background-color: green; color: white" onclick="window.location.href='/{{ space.url }}/form_teams/'"><b>Form Teams</b></button>
+        <br>
+        <br>
+            {% if teamsformed %}
+                <button class="btn btn-large" id="side_button" style="background-color: slategrey; color: white" onclick="window.location.href='/choose_teams/{{ space.url }}/'"><b>Choose Teams</b></button>
+            {% endif %}
+        <br>
+        <br>
+        <button class="btn btn-large" id="side_button" style="background-color: red; color: white" onclick="window.location.href='/{{ space.url }}/delete/'"><b>Delete Space</b></button>
+        <br>
+        <br>
+        {% else %}
+        <hr>
+        <p>Scroll through the projects to see what you want to work on and scroll through the members to see who you want to work with.
+            Click on the boxes for more information. Once you know your preferences, click the green button below and submit your preferences.</p>
+        <hr>
+        <button class="btn btn-large"  id="side_button" style="background-color: green; color: white" onclick="window.location.href='/{{ space.url }}/{{ member.username }}/rank'"><b>Rank Preferences</b></button>
+    {% endif %}
+
+    </div>
+
+
+    <div id="middle">
+    {% if msg != "" %}
+    <h3><b>{{ msg }}</b></h3>
+    {% endif %}
+    <h2><u>Current Projects</u>({{ projects.count }})</h2>
+        <div id="buttons">
+        {% for project in projects %}
+            <div class="box" id="project">
+            <button class="btn btn-large" id="button-project" data-toggle="modal" data-target="#projectModal-{{ project.id }}">
+                {% if member.owner %}
+                    <a class="close-icon" onclick="window.location.href='/{{ space.url }}/delete/{{ project.url }}/'"></a>
+                {% endif %}
+            <div id="words">
+                    <h4>{{ project.name }}<br></h4>
+            </div>
+            </button>
+            <div class="modal fade" id="projectModal-{{ project.id }}" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                          <h2 class="modal-title">{{ project.name }}</h2>
+                        </div>
+            <div class="modal-body">
+                <center><h4><b>Description:</b><br></h4><h5>{{ project.description }} </h5></center>
+                <center><h4><b>Qualifications:</b><br></h4><h5>{{ project.qualifications }}</h5></center>
+                <br>
+
+            </div>
+                    <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+    <div id="right">
+        <center><h2><u>Members </u>({{ total_students }})</h2></center>
+        {% for student, preferences in zipped_students %}
+            <button class="btn btn-large" id="button-students" data-toggle="modal" data-target="#studentModal-{{ student.id }}">
+            <div id="students">
+            {% if member.username == space.teacher %}
+                        <a class="close-icon" id="students-icon" onclick="window.location.href='/{{ space.url }}/remove/{{ student.username }}/'"></a>
+                    {% endif %}
+            <div id="student_text">
+                {% if student.owner == False %}
+                <h4>{{ student.name }}</h4>
+                    </div>
+            {% endif %}
+            </div>
+            </button>
+            <div class="modal fade" id="studentModal-{{ student.id }}" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+            <div align="center" class="modal-body">
+                <h1><b>{{ student.name }}</b></h1>
+                <h2>Bio:</h2>
+                <h4>{{ student.skills }}</h4>
+                {% if member.username == space.teacher %}
+                <h2>Partner Preferences:</h2>
+                <h4>{{ preferences }}</h4>
+                {% endif %}
+            </div>
+                    <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    <br><br>
+        {% if member.owner %}
+            {% if non_registered_members.count == 0 %}
+                <center><h3>No Pending Members</h3></center>
+
+            {% else %}
+                <center><h3><u>Pending Members </u>({{ non_registered_members.count }})</h3></center>
+            {% for member in non_registered_members %}
+                <button class="btn btn-large" id="button-students" data-toggle="modal" data-target="#studentModal-{{ member.id }}">
+                <div id="students">
+                <div id="student_text">
+                    <h4>{{ member.email }}</h4>
+                        </div>
+
+                </div>
+                </button>
+            {% endfor %}
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+

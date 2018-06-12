@@ -1,0 +1,114 @@
+{% extends 'basenolog.html' %}
+
+{% block body %}
+
+    <style>
+        #id_full_name{
+            width: 240px;
+            height: 40px;
+            font-size: inherit;
+            font-weight: bold;
+        }
+
+        #id_username{
+            width: 240px;
+            height: 40px;
+            text-indent: 10px;
+        }
+
+        #id_password1{
+            width: 240px;
+            height: 40px;
+            text-indent: 10px;
+        }
+
+        #id_password2{
+            width: 240px;
+            height: 40px;
+            text-indent: 10px;
+        }
+
+        #id_email{
+            width: 240px;
+            height: 40px;
+            text-indent: 10px;
+        }
+
+        .container {
+            width: 700px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        button{
+            background-color:rgba(0,0,0,0.20);
+        }
+        button:hover {
+            background-color:rgba(0,0,0,0.10);
+        }
+
+        label{
+            font-size: 20px;
+        }
+        #error{
+            color: red;
+        }
+        #login-button{
+            background-color: red;
+            color: white;
+        }
+        #register-button{
+            background-color: green;
+            color: white;
+        }
+    </style>
+    <div class="container">
+        <div class="jumbotron">
+            <div class="jumbotron-heading">
+                <center><h1>
+                    Registration
+                </h1></center>
+
+                <br>
+            </div>
+            {% if error_msg != "" %}
+        <div id="error">
+            <p align="center"><b>{{ error_msg }}</b></p>
+        </div>
+{% endif %}
+            <form method="post" action="/signup/{{ email }}/">
+                {% csrf_token %}
+                {% for field in form %}
+                    <p>
+                        {{ field.label_tag }}<br>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <br>
+                            {% if field.name == 'password1' %}
+                                <small style="color: grey">
+                                    Your password must contain at least 8 characters.<br>
+                                    Your password can't be all numbers.<br>
+                                </small>
+                            {% elif field.name == 'username' %}
+                                <small style="color: grey">
+                                    Must be 3 to 16 characters and can only contain letters, numbers, & underscores.
+                                </small>
+                            {% else %}
+                                <small style="color: grey">{{ field.help_text }}</small>
+                            {% endif %}
+                        {% endif %}
+                        {% for error in field.errors %}
+                          <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                {% endfor %}
+            <br>
+            <br>
+                <button id="login-button" type="button" class="pull-left btn btn-large" onclick="window.location.href='/login/' ">Back to Login</button>
+                <button id="register-button" type="submit" value="Register" class="pull-right btn  btn-large">Register</button>
+
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+

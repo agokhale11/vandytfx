@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block body %}
+<style>
+    #delete_button{
+        background-color: red;
+    }
+    #msg{
+        color:red;
+    }
+    #buttons{
+        padding-left:575px;
+    }
+    #no_delete{
+        float:left;
+    }
+</style>
+    <div id="header">
+    {% if deleted %}
+    <center><h2 id="msg">{{ msg }}</h2></center>
+    {% else %}
+    <center><h2>Are you sure you want to remove {{ removed_member.name }} from {{ space.name }}?</h2></center>
+    <br>
+        <div id="buttons">
+            <button class="btn btn-large" onclick="window.location.href='/space/{{ space.url }}'" id="no_delete">
+                NO
+            </button>
+        <form action="/{{ space.url }}/remove/{{ removed_member.username }}/" method="post">
+            {% csrf_token %}
+                &nbsp;
+                &nbsp;
+                &nbsp;
+        <button class="btn btn-large" id="delete_button">
+                YES
+            </button>
+        </form>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<style>
+    label {
+        font-size: 24px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        top: 0.5em !important;
+    }
+    .container{
+        padding: 8% 0;
+        text-align: center;
+    }
+    input{
+        font-weight:bold;
+    }
+textarea{
+    width: 300px;
+    height:120px;
+}
+#side_button{
+        background-color: white;
+        width: 15%;
+        color: black;
+        border: 2px solid black;
+    }
+
+</style>
+
+
+    <script>
+    $(function() {
+    $('textarea').val();
+    });
+    </script>
+
+<h4 align="center">
+    You can change your login password here
+</h4>
+    {% if error %}
+    <p align="center" style="color: red">{{ msg }}</p>
+    {% else %}
+    <p align="center" style="color: green">{{ msg }}</p>
+    {% endif %}
+
+    <div align="center">
+    <button class="btn btn-large" id="side_button" onclick="window.location.href='/change_password/{{ member.username }}/'"><b>Change Password</b></button>
+</div>
+
+    <form action="/{{ member.username }}/editprofile/" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+    <div class="container" id="container">
+        <div id="input" class="row">
+            <div class="input-field col s12">
+                <label for="skills">You can update your bio here</label>
+                <br>
+                <textarea autocomplete="off" name="skills" placeholder="">{{ member.skills }}</textarea>
+            </div>
+            <br>
+            <input type="submit" value="Update Bio">
+        </div>
+        <br>
+    <br>
+
+    </div>
+    </form>
+
+
+
+    <p align="center">**Your bio will be visible to all the members in your spaces.**</p>
+
+{% endblock %}

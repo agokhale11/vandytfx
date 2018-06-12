@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <style>
+      #content{
+        text-align:center;
+    }
+  #sortable1 {
+    border: 3px solid black;
+    width: 200px;
+    min-height: 300px;
+
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 0 0 0;
+      float:right;
+      margin-right:100px;
+      margin-top:30px;
+  }
+  #sortable2 {
+    border: 3px solid black;
+    width: 200px;
+    min-height: 400px;
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 0 0 0;
+      float:right;
+      margin-right:100px;
+      margin-top:30px;
+  }
+  #sortable1 li{
+    margin: 0 5px 5px 5px;
+    font-size: 0.9em;
+    width: 180px;
+    height: auto;
+
+  }
+  #sortable2 li{
+    margin: 0 5px 5px 5px;
+    font-size: 0.9em;
+    width: 180px;
+    height: auto;
+  }
+  .participant li{
+      background-color: #D00000;
+  }
+
+  #sortable {
+      list-style-type: none;
+      width: 1000px;
+      padding-left: 10px;
+  }
+  #sortable01 {
+      list-style-type: none;
+      width: 1000px;
+      padding-left: 10px;
+  }
+  #sortable02 {
+      list-style-type: none;
+      width: 1000px;
+      padding-left: 10px;
+  }
+  #project-list-small {
+      margin: 3px 3px 3px 0;
+      padding: 1px;
+      float: left;
+      width: 140px;
+      height: 20px;
+      font-size: 0.9em;
+      text-align: center;
+      background-color: whitesmoke;
+  }
+  #project-list-medium{
+      margin: 3px 3px 3px 0;
+      padding: 1px;
+      float: left;
+      width: 280px;
+      height: 40px;
+      font-size: 1.8em;
+      text-align: center;
+      background-color: whitesmoke;
+  }
+  #project-list-large {
+      margin: 3px 3px 3px 0;
+      padding: 1px;
+      float: left;
+      width: 420px;
+      height: 60px;
+      font-size: 2.7em;
+      text-align: center;
+      background-color: whitesmoke;
+  }
+  #participant-list-many{
+      margin: 3px 3px 3px 0;
+      padding: 1px;
+      float: left;
+      width: 188px;
+      height: 60px;
+      font-size: 1.4em;
+      text-align: center;
+      background-color: whitesmoke;
+  }
+  #participant-list-few{
+      margin: 3px 3px 3px 0;
+      padding: 1px;
+      float: left;
+      width: 230px;
+      height: 80px;
+      font-size: 1.8em;
+      text-align: center;
+      background-color: whitesmoke;
+  }
+  #ranking_participants{
+      padding-top:30px;
+      clear:both;
+  }
+  #collect-rankings{
+      background-color: green;
+      color: white;
+      width: 220px;
+      height: 50px;
+      font-size: 1.3em;
+  }
+  #collect-rankings-participants{
+      background-color: green;
+      color: white;
+      width: 220px;
+      height: 50px;
+      font-size: 1.3em;
+  }
+  #successmsg{
+      color: green;
+      font-size: larger;
+      font-style: italic;
+  }
+  li{
+    cursor: pointer;
+  }
+  </style>
+
+  <script type="text/javascript">
+
+    $( function() {
+        $("#sortable01, #sortable1").sortable({
+            connectWith: ".connectedSortable1"
+        });
+
+        $("li").click(function(){
+            if ($(this).closest("ul").attr("id") === "sortable01"){
+                $(this).appendTo("#sortable1");
+            }
+            else if ($(this).closest("ul").attr("id") === "sortable1"){
+                $(this).appendTo("#sortable01");
+            } else if ($(this).closest("ul").attr("id") === "sortable2"){
+                $(this).appendTo("#sortable02");
+            }
+            else {
+                $(this).appendTo("#sortable2");
+            }
+        });
+
+            $("#collect-rankings").click(function () {
+                var rankArray = [];
+                $.each($('#sortable1').find('li'), function () {
+                  rankArray.push($(this).text());
+                });
+                var data = JSON.stringify(rankArray);
+                    $.post({
+                        url: "/{{ space.url }}/{{ member.username }}/rank/",
+                        type: "POST",
+                        dataType: "text",
+                        data: {
+                            'project_ranking': data,
+                            'category': "project",
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function (json) {
+                            alert("Project Preferences were successfully submitted");
+                        },
+                        error: function (xhr, errmsg, err) {
+                            alert("Never went to Views. Error: " + xhr.status + ": " + xhr.responseText);
+                        }
+                    });
+                    $.each($('#sortable1').find('li'), function () {
+                        $(this).appendTo('#sortable01');
+                    });
+            });
+    });
+
+    $( function() {
+        $("#sortable02, #sortable2").sortable({
+            connectWith: ".connectedSortable2"
+        });
+
+
+
+            $("#collect-rankings-participants").click(function () {
+                var rankArray = [];
+                $.each($('#sortable2').find('li'), function () {
+                  rankArray.push($(this).text());
+                });
+                var data = JSON.stringify(rankArray);
+
+                    $.post({
+                        url: "/{{ space.url }}/{{ member.username }}/rank/",
+                        type: "POST",
+                        dataType: "text",
+                        data: {
+                            'peer_ranking': data,
+                            'category': "peer",
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function (json) {
+                            alert("Peer Preferences were successfully submitted");
+                        },
+                        error: function (xhr, errmsg, err) {
+                            alert("Never went to Views. Error: " + xhr.status + ": " + xhr.responseText);
+                        }
+                    });
+                    $.each($('#sortable2').find('li'), function () {
+                        $(this).appendTo('#sortable02');
+                    });
+
+            });
+    });
+
+
+  </script>
+     <div id="content">
+
+        <center><h2>Click or Drag options to rank them from most preferred (top) to least preferred (bottom).</h2></center>
+
+{% if projects.count != 0 %}
+
+<div id="project_ranking">
+<ul id="sortable1" class="connectedSortable1">
+ </div>
+<br>
+     <h2><u>Projects</u></h2>
+    <h4><b>Project preferences will not affect member rankings.</b> </h4>
+     <button type="button" id="collect-rankings">Submit Project Preferences</button>
+
+    <div id="table">
+<ul id="sortable01" class="connectedSortable1">
+    {% for project in projects %}
+        {% if projects.count < 20 and projects.count > 7%}
+            <li id="project-list-medium" >{{ project.name }}</li>
+        {% endif %}
+        {% if projects.count <= 7%}
+        <li id="project-list-large">{{ project.name }}</li>
+        {% endif %}
+        {% if projects.count >= 20 %}
+        <li id="project-list-small">{{ project.name }}</li>
+        {% endif %}
+    {% endfor %}
+
+
+</ul>
+        </div>
+
+
+
+{% endif %}
+<div id="ranking_participants">
+    <ul id="sortable2" class="connectedSortable2">
+
+</div>
+
+     <br>
+     <h2><u>Members</u></h2>
+         <h4><b>Rank up to 5 members who you want to be on a team with.</b> </h4>
+         <h4>If you want to be on a team even if it does not have the members you ranked, drag the navy box after your last preference. </h4>
+                <h4>If you'd rather be alone than on a team without the members you ranked, drag the red box below your preferences.</h4>
+
+     <button type="button" id="collect-rankings-participants">Submit Peer Preferences</button>
+
+
+     <div id="project_ranking">
+<ul id="sortable02" class="connectedSortable2">
+    {% for participant in participants %}
+        {% if participants.count <= 32%}
+        <li id="participant-list-few" value={{ participant.username }}><b>{{ participant.name }}</b><br> ({{ participant.username }})</li>
+        {% else %}
+        <li id="participant-list-many" value={{ participant.username }}><b>{{ participant.name }}</b><br> ({{ participant.username }})</li>
+        {% endif %}
+    {% endfor %}
+        {% if participants.count <= 32%}
+        <li id="participant-list-few" style="color: white; background-color: darkred" value="_myself_"><b>Rather be<br>by Myself</b></li>
+        {% else %}
+        <li id="participant-list-many" style="color: white; background-color: darkred" value="_myself_"><b>Rather be<br>by Myself</b></li>
+        {% endif %}
+        {% if participants.count <= 32%}
+        <li id="participant-list-few" style="color: white; background-color: navy" value="_team_"><b>Rather be<br>on any Team</b></li>
+        {% else %}
+        <li id="participant-list-many" style="color: white; background-color: navy" value="_team_"><b>Rather be<br>on any Team</b></li>
+        {% endif %}
+</ul>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<style>
+    #header{
+        padding-top: 10px;
+    }
+    #errormsg{
+        color: red;
+        font-size: 14px;
+    }
+    label {
+        font-size: 24px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        top: 0.5em !important;
+    }
+    input {
+        font-family: 'Spectral',sans-serif;
+        margin-bottom: 2em !important;
+    }
+    .container{
+        padding: 8% 0;
+        text-align: center;
+    }
+    .btn-large{
+        width:100px;
+        height:50px;
+        background-color:rgba(0,0,0,0.20);
+    }
+    .btn-large:hover{
+        background-color:rgba(0,0,0,0.10);
+    }
+    input{
+        font-weight:bold;
+    }
+textarea{
+    width: 300px;
+  height: 100px;
+}
+</style>
+    <div id = "errormsg"><p align="center">{{ errormsg }}</p></div>
+<div id="header">
+<h1 align="center">
+    Create Your Space
+</h1>
+    </div>
+<div id="form">
+<form action="/{{username}}/space/" method="post">
+{% csrf_token %}
+    <div class="container" id="container">
+        <div id="input" class="row">
+            <div class="input-field col s12">
+                <label for="Space Name">Space Name</label>
+                <br>
+                <input autocomplete="off" name="Space" placeholder="" type="text">
+            </div>
+            <div class="col s12 m6 l6">
+                <label for="Space Description">Space Description</label>
+                <br>
+            <textarea maxlength="250" name="Description" placeholder=""></textarea>
+            </div>
+            <small color="gray">*Description can be no longer than 250 characters</small>
+            <br>
+            <br>
+            <div class="col s12 m6 l6">
+                <label for="Password">Space Password</label>
+                <br>
+            <input autocomplete="off" name="password" placeholder="" type="text">
+            </div>
+            <br>
+            <br>
+            <div id="submit">
+                <button class="btn btn-large"><b>SUBMIT</b></button>
+            </div>
+        </div>
+        <div id="output" class="row" style="display: none"></div>
+    </div>
+</form>
+</div>
+
+{% endblock %}
