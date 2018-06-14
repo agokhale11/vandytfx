@@ -1,4 +1,4 @@
-dj-database-url==0.4.1
+dj-database-url==0.5
 Django==1.11
 gunicorn==19.6.0
 olefile==0.44
@@ -8,3 +8,4 @@ pytz==2017.2
 whitenoise==2.0.6
 django-mathfilters==0.4.0
 pipenv==2018.05.18
+django-heroku
