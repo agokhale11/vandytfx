@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'main.urls'
+ROOT_URLCONF = 'Team.urls'
 LOGIN_REDIRECT_URL = '/profile_redirect/'
 
 TEMPLATES = [
@@ -77,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'main.wsgi.application'
+WSGI_APPLICATION = 'Team.wsgi.application'
 
 
 # Database
@@ -85,8 +85,8 @@ WSGI_APPLICATION = 'main.wsgi.application'
 
 DATABASES = {
     'default': {
-       # 'ENGINE': 'django.db.backends.sqlite3', #django.db.backends.postgresql_psycopg2
-       # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.sqlite3', #django.db.backends.postgresql_psycopg2
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

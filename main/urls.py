@@ -6,16 +6,12 @@ main/urls.py routes each url that a user could visit to the appropriate view fun
 -   Author: Joshua Stafford (joshua.o.stafford@vanderbilt.edu) Contact with any questions
 """
 
-from django.contrib import admin
-from django.conf import settings
-from django.conf.urls.static import static
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from main.forms import LoginForm
 from main import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
     url(r'^$', views.home_view, name='home'),
     # url(r'^signup/$', views.signup_view, name ='signup'),
     url(r'^signup/(.*)/$', views.email_signup_view, name='signup_email'),
@@ -45,6 +41,3 @@ urlpatterns = [
     url(r'^choose_teams/([a-zA-Z0-9_-]{3,16})/', views.compare_teams_view, name='compare_teams'),
     url(r'^([a-zA-Z0-9_-]{3,16})/send_reminders/$', views.send_reminders_view, name='send_reminders'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
