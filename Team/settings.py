@@ -131,7 +131,7 @@ PROJECT_DIR = os.path.dirname(__file__)
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, '../Team/static'),
+    os.path.join(PROJECT_DIR, '../Team/../main/static'),
 )
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
