@@ -608,7 +608,7 @@ def form_teams_view(request, spaceurl):
     setup_data = ""
     if request.method == 'POST':
         group_size_raw = request.POST.get('Group_Options', None)
-        iterative_soulmates_raw = request.POST.get('yes-no', None)
+        iterative_soulmates_raw = '1' #request.POST.get('yes-no', None)
         algorithm_index_raw = request.POST.get('optradio', None)
         alpha_raw = request.POST.get('alpha')
         alpha_adjusted = float(alpha_raw) * 1000000
