@@ -600,7 +600,7 @@ def space_preferences_view(request, username, spaceurl):
 @login_required(login_url="/login/")
 def form_teams_view(request, spaceurl):
     member = get_user(request)
-    space = Space.objects.get(url = spaceurl)
+    space = Space.objects.get(url=spaceurl)
     msg = ""
     user_preferences = ""
     if member.username != space.teacher:
