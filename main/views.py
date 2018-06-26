@@ -810,7 +810,7 @@ def assign_teams_view(request, spaceurl):
     preferences = Preferences.objects.filter(space=space)
     teams = Team.objects.filter(space=space)
     projects = Project.objects.filter(space=space)
-    project_teams = ProjectTeams.objects.get(space=space)
+    project_teams = ProjectTeams.objects.filter(space=space)
 
     for team in teams:
         team_rank = {}
@@ -832,7 +832,6 @@ def assign_teams_view(request, spaceurl):
                 max_project = project
 
         project_teams[team] = max_project
-      #  project_teams.save()
         projects.delete(max_project)
 
     return render(request, 'assign_teams.html', {'member': get_user(request), 'list': project_teams})

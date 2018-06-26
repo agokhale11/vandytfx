@@ -148,7 +148,6 @@ class Preferences(models.Model):
             names_string = "No preferences submitted."
         return names_string
 
-
 class ProjectTeams(models.Model):
     space = models.ForeignKey(Space)  # each project is associated with one space
     project_teams = {}
