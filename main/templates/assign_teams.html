@@ -1,6 +1,25 @@
 {% extends 'base.html' %}
 
+{% block body %}
+<style>
+table{
+        background-color: transparent;
+    }
+th{
+    padding: 10px;
 
+}
+td {
+    padding: 10px;
+    width: 400px;
+    border-right: 10px;
+    border-right-color: black;
+
+}
+tr:nth-child(even) {background: whitesmoke}
+tr:nth-child(odd) {background: white}
+
+</style>
 
 <table id = "Table" align="center">
     <tr>
@@ -31,3 +50,5 @@
 
 
 </table>
+
+{% endblock %}
