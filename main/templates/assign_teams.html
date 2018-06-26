@@ -1,1 +1,33 @@
 {% extends 'base.html' %}
+
+
+
+<table id = "Table" align="center">
+    <tr>
+        <th>
+           <b><u> Team</u></b>
+        </th>
+
+        <th>
+           <b><u> Project Assigned</u></b>
+        </th>
+
+    </tr>
+
+{% for team in project_teams %}
+
+    <tr>
+    <td>
+        {{ team }}
+    </td>
+
+    <td>
+        {{ project_teams.team}}
+    </td>
+    </tr>
+
+
+{% endfor %}
+
+
+</table>

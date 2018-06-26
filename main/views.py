@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from main.forms import SignUpForm, EmailSignupForm, ChangePasswordForm
 from django.shortcuts import render, redirect
-from main.models import Space, Project, Member, Preferences, Team, MasterTeam
+from main.models import Space, Project, Member, Preferences, Team, MasterTeam, ProjectTeams
 import json as simplejson
 from main.functions import authenticate_member, get_user, send_new_space_email, send_owner_spreadsheet
 from django.core.mail import send_mail
@@ -810,7 +810,7 @@ def assign_teams_view(request, spaceurl):
     preferences = Preferences.objects.filter(space=space)
     teams = Team.objects.filter(space=space)
     projects = Project.objects.filter(space=space)
-    #project_teams = ProjectTeams.objects.filter(space=space)
+    project_teams = ProjectTeams.objects.filter(space=space)
 
     for team in teams:
         team_rank = {}
@@ -831,8 +831,7 @@ def assign_teams_view(request, spaceurl):
                 max_value = team_rank[project]
                 max_project = project
 
-        project_teams = {}
         project_teams[team] = max_project
         projects.delete(max_project)
 
-    return render(request, 'assign_teams.html')
+    return render(request, 'assign_teams.html', {'list': project_teams})
