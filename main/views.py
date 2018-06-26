@@ -608,7 +608,7 @@ def form_teams_view(request, spaceurl):
     setup_data = ""
     if request.method == 'POST':
         group_size_raw = request.POST.get('Group_Options', None)
-        iterative_soulmates_raw = '1' #request.POST.get('yes-no', None)
+        iterative_soulmates_raw = '1'
         algorithm_index_raw = request.POST.get('optradio', None)
         alpha_raw = request.POST.get('alpha')
         alpha_adjusted = float(alpha_raw) * 1000000
@@ -802,3 +802,37 @@ def send_reminders_view(request, space_url):
         send_new_space_email(member, space, receiver_email, False)
         emails.append(receiver_email)
     return render(request, 'send_reminders.html', {'member': member, 'emails': emails, 'space': space})
+
+
+@login_required(login_url="/login/")
+def assign_teams_view(request, spaceurl):
+    space = Space.objects.get(url=spaceurl)
+    preferences = Preferences.objects.filter(space=space)
+    teams = Team.objects.filter(space=space)
+    projects = Project.objects.filter(space=space)
+    #project_teams = ProjectTeams.objects.filter(space=space)
+
+    for team in teams:
+        team_rank = {}
+        for project in projects:
+            team_rank[project] = 0
+
+        members = Member.objects.filter(team=team)
+        for member in members:
+            member_preferences = preferences.objects.filter(member=member)
+            member_rankings = member_preferences.projects_ranking.reverse()
+            for project in member_rankings:
+                team_rank[project] += member_rankings
+
+        max_value = -1
+        max_project = None
+        for project in team_rank:
+            if team_rank[project] > max_value:
+                max_value = team_rank[project]
+                max_project = project
+
+        project_teams = {}
+        project_teams[team] = max_project
+        projects.delete(max_project)
+
+    return render(request, 'assign_teams.html')
