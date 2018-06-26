@@ -834,4 +834,4 @@ def assign_teams_view(request, spaceurl):
         project_teams[team] = max_project
         projects.delete(max_project)
 
-    return render(request, 'assign_teams.html', {'list': project_teams})
+    return render(request, 'assign_teams.html', {'member': get_user(request), 'list': project_teams})
