@@ -35,22 +35,28 @@ tr:nth-child(odd) {background: white}
 
     </tr>
 
-{% for team in project_teams %}
+{% for project in list %}
 
     <tr>
     <td>
-        {{ team }}
+        {% if project.team == None %}
+            <b>Unassigned</b>
+        {% else %}
+            {{ project.team }}
+        {% endif %}
     </td>
 
     <td>
-        {{ project_teams.team}}
+        {{ project }}
     </td>
     </tr>
 
-
 {% endfor %}
 
-
 </table>
+
+    <br>
+    <button class="btn btn-large" id="side_button" style="background-color: red; color: white" onclick="window.location.href='/{{ space.url }}/assign_teams/'"><b>Assign New Teams</b></button>
+    <br>
 
 {% endblock %}

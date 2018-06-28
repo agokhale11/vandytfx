@@ -79,6 +79,7 @@ class Project(models.Model):
     description = models.CharField(max_length=500)
     qualifications = models.CharField(max_length=300)
     space = models.ForeignKey(Space)  # each project is associated with one space
+    team = models.ForeignKey(Team, default=None)  #each project is only assigned to one team
 
     def __unicode__(self):
         return self.name
@@ -147,9 +148,3 @@ class Preferences(models.Model):
         else:
             names_string = "No preferences submitted."
         return names_string
-
-class ProjectTeams(models.Model):
-    space = models.ForeignKey(Space)  # each project is associated with one space
-    project_teams = {}
-    leftover_teams = []
-    leftover_projects = []

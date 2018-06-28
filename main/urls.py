@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^([a-zA-Z0-9_-]{1,30})/remove/([a-zA-Z0-9_"-]{3,16})/$', views.remove_member_view, name='remove_member'),
     url(r'^([a-zA-Z0-9_-]{3,16})/preferences', views.preferences_view, name='view_preferences'),
     url(r'^([a-zA-Z0-9_-]{3,16})/form_teams/$', views.form_teams_view, name='team_formation'),
+    url(r'^([a-zA-Z0-9_-]{3,16})/view_assignments/$', views.view_assignments, name='view_assignments'),
     url(r'^([a-zA-Z0-9_-]{3,16})/assign_teams/$', views.assign_teams_view, name='assign_teams'),
     url(r'^([a-zA-Z0-9_-]{3,16})/teams/$', views.teams_view, name='view_groups'),
     url(r'^([a-zA-Z0-9_-]{3,16})/all_teams/$', views.all_teams_view, name='view_groups'),

@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from main.forms import SignUpForm, EmailSignupForm, ChangePasswordForm
 from django.shortcuts import render, redirect
-from main.models import Space, Project, Member, Preferences, Team, MasterTeam, ProjectTeams
+from main.models import Space, Project, Member, Preferences, Team, MasterTeam
 import json as simplejson
 from main.functions import authenticate_member, get_user, send_new_space_email, send_owner_spreadsheet
 from django.core.mail import send_mail
@@ -810,7 +810,6 @@ def assign_teams_view(request, spaceurl):
     preferences = Preferences.objects.filter(space=space)
     teams = Team.objects.filter(space=space)
     projects = Project.objects.filter(space=space)
-    project_teams = ProjectTeams.objects.filter(space=space)
 
     for team in teams:
         team_rank = {}
@@ -819,7 +818,7 @@ def assign_teams_view(request, spaceurl):
 
         members = Member.objects.filter(team=team)
         for member in members:
-            member_preferences = preferences.objects.filter(member=member)
+            member_preferences = preferences.objects.filter(member=member, space=space)
             member_rankings = member_preferences.projects_ranking.reverse()
             for project in member_rankings:
                 team_rank[project] += member_rankings
@@ -831,7 +830,13 @@ def assign_teams_view(request, spaceurl):
                 max_value = team_rank[project]
                 max_project = project
 
-        project_teams[team] = max_project
-        projects.delete(max_project)
-        project_teams.save()
-    return render(request, 'assign_teams.html', {'member': get_user(request), 'list': project_teams})
+        max_project.team = team
+        max_project.save()
+    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.filter(space=space)})
+
+
+@login_required(login_url="/login/")
+def view_assignments(request, spaceurl):
+    space = Space.objects.get(url=spaceurl)
+    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.filter(space=space)})
+
