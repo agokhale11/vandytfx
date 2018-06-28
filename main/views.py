@@ -818,7 +818,7 @@ def assign_teams_view(request, spaceurl):
 
         members = Member.objects.filter(teams=team)
         for member in members:
-            member_preferences = preferences.objects.filter(member=member, space=space)
+            member_preferences = preferences.filter(member=member, space=space)
             member_rankings = member_preferences.projects_ranking.reverse()
             for project in member_rankings:
                 team_rank[project] += member_rankings
