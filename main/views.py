@@ -818,10 +818,11 @@ def assign_teams_view(request, spaceurl):
 
         members = Member.objects.filter(teams=team)
         for member in members:
-            member_preferences = preferences.get(member=member, space=space)
-            member_rankings = member_preferences.project_preferences_as_names()
-            for project in member_rankings:
-                team_rank[project.name] += member_rankings[project.name]
+            if preferences.filter(member=member, space=space).exists():
+                member_preferences = preferences.get(member=member, space=space)
+                member_rankings = member_preferences.project_preferences_as_names()
+                for project in member_rankings:
+                    team_rank[project.name] += member_rankings[project.name]
 
         max_value = -1
         max_project = None
