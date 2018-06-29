@@ -814,24 +814,25 @@ def assign_teams_view(request, spaceurl):
     for team in teams:
         team_rank = {}
         for project in projects:
-            team_rank[project] = 0
+            team_rank[project.name] = 0
 
         members = Member.objects.filter(teams=team)
         for member in members:
             member_preferences = preferences.filter(member=member, space=space)
-            member_rankings = member_preferences.projects_ranking.reverse()
+            member_rankings = member_preferences.project_preferences_as_names
             for project in member_rankings:
-                team_rank[project] += member_rankings
+                team_rank[project.name] += member_rankings[project.name]
 
         max_value = -1
         max_project = None
-        for project in team_rank:
-            if team_rank[project] > max_value:
-                max_value = team_rank[project]
-                max_project = project
+        for project.name in team_rank:
+            if team_rank[project.name] > max_value:
+                max_value = team_rank[project.name]
+                max_project = project.name
 
-        max_project.team = team
-        max_project.save()
+        team_project = Project.objects.filter(name=max_project)
+        team_project.team = team
+        team_project.save()
     return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.filter(space=space), 'space': space})
 
 

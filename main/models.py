@@ -148,3 +148,16 @@ class Preferences(models.Model):
         else:
             names_string = "No preferences submitted."
         return names_string
+
+    def project_preferences_as_names(self):
+        all_preferences = str(self.projects_ranking)
+        pref_projects = all_preferences.split(" ")
+        pref_projects = pref_projects[::-1]
+        counter = 1
+        project_points = {}
+        for pref_project in pref_projects:
+            if Project.objects.filter(username=pref_project).exists():
+                    preferred_project = Project.objects.get(username=pref_project)
+                    project_points[preferred_project.name] = counter
+                    counter += 1
+        return project_points
