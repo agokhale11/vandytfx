@@ -67,6 +67,14 @@ class Team(models.Model):
         for member in members:
             temp += member.name + ", "
         temp = temp[:-2]
+        return
+
+    def string(self):
+        members = Member.objects.filter(teams=self)
+        temp_member = ""
+        for member in members:
+            temp_member += member.name + ", "
+        temp = temp_member[:-2]
         return temp
 
 

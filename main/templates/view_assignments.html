@@ -42,7 +42,7 @@ tr:nth-child(odd) {background: white}
         {% if project.team == None %}
             <b>Unassigned</b>
         {% else %}
-            <b>{{ project.team }}</b>
+            <b>{{ project.team.string}}</b>
         {% endif %}
     </td>
 
