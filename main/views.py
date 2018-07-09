@@ -831,7 +831,7 @@ def assign_teams_view(request, spaceurl):
                 max_value = team_rank[name]
                 max_project = name
 
-        team_project = Project.objects.filter(name=max_project)
+        team_project = Project.objects.get(name=max_project)
         team_project.team = team
     return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.filter(space=space), 'space': space})
 
