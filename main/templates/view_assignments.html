@@ -22,6 +22,9 @@ tr:nth-child(odd) {background: white}
 </style>
 
 
+<h1 align="center">
+    Project-Team Assignments
+</h1>
 
 <table id = "Table" align="center">
     <tr>
@@ -54,11 +57,11 @@ tr:nth-child(odd) {background: white}
 {% endfor %}
 
 </table>
-
+<div id="center">
     <br>
     <br>
     <button class="btn btn-large" id="side_button" style="background-color: red; color: white" onclick="window.location.href='/{{ space.url }}/assign_teams/'"><b>Assign New Teams</b></button>
     <br>
     <br>
-
+</div>
 {% endblock %}
