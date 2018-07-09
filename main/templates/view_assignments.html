@@ -2,6 +2,15 @@
 
 {% block body %}
 <style>
+
+#center_button{
+        padding-left:50%;
+        background-color: white;
+        width: 50%;
+        color: black;
+        border: 4px solid black;
+    }
+
 table{
         background-color: transparent;
     }
@@ -60,7 +69,7 @@ tr:nth-child(odd) {background: white}
 <div id="center">
     <br>
     <br>
-    <button class="btn btn-large" id="side_button" style="background-color: red; color: white" onclick="window.location.href='/{{ space.url }}/assign_teams/'"><b>Assign New Teams</b></button>
+    <button class="btn btn-large" id="center_button" onclick="window.location.href='/{{ space.url }}/assign_teams/'"><b>Assign New Teams</b></button>
     <br>
     <br>
 </div>
