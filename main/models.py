@@ -54,7 +54,7 @@ class MasterTeam(models.Model):
         return info
 
 
-#   Each team object is identified by its space and the it's MasterTeam
+#   Each team object is identified by its space and it's MasterTeam
 #   -   To get the teams of a member, use member.teams
 #   -   Team instances are made by the form_teams_view in main/views.py by reading the Jar file output
 class Team(models.Model):
