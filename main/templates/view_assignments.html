@@ -9,6 +9,7 @@
 
 #center_button{
         position: absolute;
+        right: 50%;
         background-color: white;
         width: 20%;
         color: black;
@@ -58,7 +59,7 @@ tr:nth-child(odd) {background: white}
         {% if project.team == None %}
             <b>Unassigned</b>
         {% else %}
-            <b>test</b>
+            <b>{{ project.team.string }}</b>
         {% endif %}
     </td>
 
