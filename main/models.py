@@ -156,8 +156,8 @@ class Preferences(models.Model):
         counter = 1
         project_points = {}
         for pref_project in pref_projects:
-            if Project.objects.filter(username=pref_project).exists():
-                    preferred_project = Project.objects.get(username=pref_project)
+            if Project.objects.filter(name=pref_project).exists():
+                    preferred_project = Project.objects.get(name=pref_project)
                     project_points[preferred_project.name] = counter
                     counter += 1
         return project_points
