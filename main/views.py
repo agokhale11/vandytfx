@@ -822,7 +822,7 @@ def assign_teams_view(request, spaceurl):
                 member_preferences = preferences.get(member=member, space=space)
                 member_rankings = member_preferences.project_preferences_as_names()
                 for project in member_rankings:
-                    team_rank[project.name] += member_rankings[project.name]
+                    team_rank[project] += member_rankings[project]
 
         max_value = -1
         max_project = None
