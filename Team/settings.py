@@ -30,7 +30,7 @@ MEDIA_ROOT=os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
 
 EMAIL_USE_TLS= True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'teamformation.notify@gmail.com'
+EMAIL_HOST_USER = 'team.formation.inform@gmail.com'
 EMAIL_HOST_PASSWORD = 'vutf1234'
 EMAIL_PORT = 587
 
