@@ -833,11 +833,11 @@ def assign_teams_view(request, spaceurl):
 
         team_project = Project.objects.filter(name=max_project)
         team_project.team = team
-    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.filter(space=space), 'space': space})
+    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.get(space=space), 'space': space})
 
 
 @login_required(login_url="/login/")
 def view_assignments(request, spaceurl):
     space = Space.objects.get(url=spaceurl)
-    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.filter(space=space), 'space': space})
+    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.get(space=space), 'space': space})
 
