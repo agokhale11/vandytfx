@@ -809,16 +809,17 @@ def assign_teams_view(request, spaceurl):
     space = Space.objects.get(url=spaceurl)
     preferences = Preferences.objects.filter(space=space)
     teams = Team.objects.filter(space=space)
-    projects = Project.objects.filter(space=space)
+    project = Project.objects.filter(space=space)
+    projects = project
 
     for team in teams:
         team_rank = {}
         for project in projects:
             team_rank[project.name] = 0
 
-        members = Member.objects.filter(teams=team)
+        members = Member.objects.filter(teams=team, space=space)
         for member in members:
-            if preferences.filter(member=member, space=space).exists():
+            if preferences.filter(member=member).exists():
                 member_preferences = preferences.get(member=member, space=space)
                 member_rankings = member_preferences.project_preferences_as_names()
                 for project in member_rankings:
@@ -833,7 +834,8 @@ def assign_teams_view(request, spaceurl):
 
         team_project = Project.objects.get(name=max_project)
         team_project.team = team
-        #team_project.save()
+        projects.delete(name=max_project)
+        team_project.save()
     return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.filter(space=space), 'space': space})
 
 

@@ -56,7 +56,7 @@ tr:nth-child(odd) {background: white}
 
     <tr>
     <td>
-        {% if project.team == None %}
+        {% if project.team.DoesNotExist %}
             <b>Unassigned</b>
         {% else %}
             <b>{{ project.team }}</b>
