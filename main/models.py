@@ -79,7 +79,6 @@ class Project(models.Model):
     description = models.CharField(max_length=500)
     qualifications = models.CharField(max_length=300)
     space = models.ForeignKey(Space)  # each project is associated with one space
-    team = models.ForeignKey(Team, default=None)  #each project is only assigned to one team
 
     def __unicode__(self):
         return self.name
@@ -161,3 +160,9 @@ class Preferences(models.Model):
                     project_points[preferred_project.name] = counter
                     counter += 1
         return project_points
+
+
+class TeamProject(models.Model):
+    space = models.ForeignKey(Space)
+    project = models.ForeignKey(Project)
+    team = models.ForeignKey(Team)

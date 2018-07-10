@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from main.forms import SignUpForm, EmailSignupForm, ChangePasswordForm
 from django.shortcuts import render, redirect
-from main.models import Space, Project, Member, Preferences, Team, MasterTeam
+from main.models import Space, Project, Member, Preferences, Team, MasterTeam, TeamProject
 import json as simplejson
 from main.functions import authenticate_member, get_user, send_new_space_email, send_owner_spreadsheet
 from django.core.mail import send_mail
@@ -256,7 +256,7 @@ def create_project_view(request, space_url):
             return render(request, 'createproject.html', {'member': member, 'errormsg': errormsg})
 
         new_project = Project(name = name, url = url, description=description, qualifications=qualifications,
-                            space = owning_space, team_id=None)
+                            space = owning_space)
         new_project.save()
         return redirect('/space/' + space_url)
     return render(request, 'createproject.html', {'member': member, 'errormsg': errormsg})
@@ -833,9 +833,9 @@ def assign_teams_view(request, spaceurl):
                 max_project = name
 
         team_project = Project.objects.get(name=max_project)
-        team_project.team = team
-        team_project.save()
-    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.filter(space=space), 'space': space})
+        new_project_team = TeamProject(space=space, team=team, project=team_project)
+        new_project_team.save()
+    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': TeamProject.objects.filter(space=space), 'space': space})
 
 
 @login_required(login_url="/login/")

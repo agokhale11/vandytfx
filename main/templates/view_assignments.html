@@ -52,19 +52,19 @@ tr:nth-child(odd) {background: white}
 
     </tr>
 
-{% for project in list %}
+{% for project_team in list %}
 
     <tr>
     <td>
-        {% if project.team.DoesNotExist %}
+        {% if project_team.team == None %}
             <b>Unassigned</b>
         {% else %}
-            <b>{{ project.team }}</b>
+            <b>{{ project_team.team }}</b>
         {% endif %}
     </td>
 
     <td>
-        <b>{{ project.name }}</b>
+        <b>{{ project_team.project.name }}</b>
     </td>
     </tr>
 
