@@ -834,7 +834,6 @@ def assign_teams_view(request, spaceurl):
 
         team_project = Project.objects.get(name=max_project)
         team_project.team = team
-        projects.delete(name=max_project)
         team_project.save()
     return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.filter(space=space), 'space': space})
 
