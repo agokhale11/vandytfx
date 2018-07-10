@@ -256,7 +256,7 @@ def create_project_view(request, space_url):
             return render(request, 'createproject.html', {'member': member, 'errormsg': errormsg})
 
         new_project = Project(name = name, url = url, description=description, qualifications=qualifications,
-                            space = owning_space)
+                            space = owning_space, team=None)
         new_project.save()
         return redirect('/space/' + space_url)
     return render(request, 'createproject.html', {'member': member, 'errormsg': errormsg})
