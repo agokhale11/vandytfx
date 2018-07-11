@@ -841,5 +841,5 @@ def assign_teams_view(request, spaceurl):
 @login_required(login_url="/login/")
 def view_assignments(request, spaceurl):
     space = Space.objects.get(url=spaceurl)
-    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': Project.objects.filter(space=space), 'space': space})
+    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': TeamProject.objects.filter(space=space), 'space': space})
 
