@@ -40,6 +40,10 @@ tr:nth-child(odd) {background: white}
     Project-Team Assignments for {{ space }}
 </h1>
 
+{% if not list.exists %}
+            <b>Teams have not been assigned to projects for this space</b>
+{% endif %}
+
 <table id = "Table" align="center">
     <tr>
         <th>
@@ -56,11 +60,7 @@ tr:nth-child(odd) {background: white}
 
     <tr>
     <td>
-        {% if project_team.team == None %}
-            <b>Unassigned</b>
-        {% else %}
-            <b>{{ project_team.team }}</b>
-        {% endif %}
+        <b>{{ project_team.team }}</b>
     </td>
 
     <td>
@@ -75,7 +75,7 @@ tr:nth-child(odd) {background: white}
 <div id="shift">
     <br>
     <br>
-    <button class="btn btn-large" id="center_button" onclick="window.location.href='/{{ space.url }}/assign_teams/'"><b>Assign New Teams</b></button>
+    <button class="btn btn-large" id="center_button" onclick="window.location.href='/{{ space.url }}/assign_teams/'"><b>Assign Teams</b></button>
     <br>
     <br>
 </div>

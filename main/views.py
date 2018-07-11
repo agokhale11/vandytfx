@@ -825,6 +825,7 @@ def assign_teams_view(request, spaceurl):
                 for project in member_rankings:
                     team_rank[project] += member_rankings[project]
 
+        print(team_rank)
         max_value = -1
         max_project = ""
         for name in team_rank:
