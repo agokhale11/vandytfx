@@ -40,9 +40,11 @@ tr:nth-child(odd) {background: white}
     Project-Team Assignments for {{ space }}
 </h1>
 
+<div align="center">
 {% if not list.exists %}
             <b>Teams have not been assigned to projects for this space</b>
 {% endif %}
+</div>
 
 <table id = "Table" align="center">
     <tr>
@@ -79,5 +81,5 @@ tr:nth-child(odd) {background: white}
     <br>
     <br>
 </div>
-
+    <div><b>list</b></div>
 {% endblock %}

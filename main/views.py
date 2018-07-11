@@ -812,6 +812,9 @@ def assign_teams_view(request, spaceurl):
     project = Project.objects.filter(space=space)
     projects = project
 
+    current_assignments = TeamProject.objects.filter(space=space)
+    current_assignments.delete()
+
     for team in teams:
         team_rank = {}
         for project in projects:
@@ -825,7 +828,6 @@ def assign_teams_view(request, spaceurl):
                 for project in member_rankings:
                     team_rank[project] += member_rankings[project]
 
-        print(team_rank)
         max_value = -1
         max_project = ""
         for name in team_rank:
@@ -834,9 +836,8 @@ def assign_teams_view(request, spaceurl):
                 max_project = name
 
         team_project = Project.objects.get(name=max_project)
-        if not TeamProject.objects.filter(space=space, team=team, project=team_project):
-            new_project_team = TeamProject(space=space, team=team, project=team_project)
-            new_project_team.save()
+        new_project_team = TeamProject(space=space, team=team, project=team_project)
+        new_project_team.save()
     return render(request, 'view_assignments.html', {'member': get_user(request), 'list': TeamProject.objects.filter(space=space), 'space': space})
 
 
@@ -844,4 +845,3 @@ def assign_teams_view(request, spaceurl):
 def view_assignments(request, spaceurl):
     space = Space.objects.get(url=spaceurl)
     return render(request, 'view_assignments.html', {'member': get_user(request), 'list': TeamProject.objects.filter(space=space), 'space': space})
-
