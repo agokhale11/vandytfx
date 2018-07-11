@@ -833,7 +833,7 @@ def assign_teams_view(request, spaceurl):
                 max_project = name
 
         team_project = Project.objects.get(name=max_project)
-        if TeamProject.objects.filter(space=space, team=team, project=team_project):
+        if not TeamProject.objects.filter(space=space, team=team, project=team_project):
             new_project_team = TeamProject(space=space, team=team, project=team_project)
             new_project_team.save()
     return render(request, 'view_assignments.html', {'member': get_user(request), 'list': TeamProject.objects.filter(space=space), 'space': space})
