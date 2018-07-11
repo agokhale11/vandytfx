@@ -831,7 +831,8 @@ def assign_teams_view(request, spaceurl):
         max_value = -1
         max_project = ""
         for name in team_rank:
-            if team_rank[name] > max_value:
+            test_project = Project.objects.get(name=name)
+            if team_rank[name] > max_value and not TeamProject.objects.filter(space=space, project=test_project):
                 max_value = team_rank[name]
                 max_project = name
 
