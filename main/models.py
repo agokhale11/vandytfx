@@ -164,5 +164,6 @@ class Preferences(models.Model):
 
 class TeamProject(models.Model):
     space = models.ForeignKey(Space)
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(Project, default=None)
     team = models.ForeignKey(Team)
+
