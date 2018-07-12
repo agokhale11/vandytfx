@@ -819,7 +819,7 @@ def assign_teams_view(request, spaceurl):
         for project in projects:
             team_rank[project.name] = 0
 
-        members = Member.objects.filter(space=space, teams=team)     #need to revise this
+        members = Member.objects.filter(teams=team)     #need to revise this
         for member in members:
             if preferences.filter(member=member).exists():
                 member_preferences = preferences.get(member=member, space=space)
