@@ -849,7 +849,8 @@ def assign_teams_view(request, spaceurl):
         leftover_projects = []
 
         for assignment in assignments:
-            assigned_projects.append(assignment.project)
+            if assignment.project is not None:
+                assigned_projects.append(assignment.project)
 
         for project in projects:
             if project not in assigned_projects:
