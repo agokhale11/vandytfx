@@ -809,8 +809,7 @@ def assign_teams_view(request, spaceurl):
     space = Space.objects.get(url=spaceurl)
     preferences = Preferences.objects.filter(space=space)
     teams = Team.objects.filter(space=space)
-    project = Project.objects.filter(space=space)
-    projects = project
+    projects = Project.objects.filter(space=space)
 
     current_assignments = TeamProject.objects.filter(space=space)
     current_assignments.delete()
@@ -844,10 +843,25 @@ def assign_teams_view(request, spaceurl):
             new_project_team = TeamProject(space=space, team=team)
 
         new_project_team.save()
-    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': TeamProject.objects.filter(space=space), 'space': space})
+
+        assignments = TeamProject.objects.filter(space=space)
+        assigned_projects = []
+        leftover_projects = []
+
+        for assignment in assignments:
+            assigned_projects.append(assignment.project)
+
+        for project in projects:
+            if project not in assigned_projects:
+                leftover_projects.append(project)
+
+    return render(request, 'view_assignments.html', {'member': get_user(request),
+                                                     'list': TeamProject.objects.filter(space=space), 'space': space,
+                                                     'leftover_projects': leftover_projects})
 
 
 @login_required(login_url="/login/")
 def view_assignments(request, spaceurl):
     space = Space.objects.get(url=spaceurl)
-    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': TeamProject.objects.filter(space=space), 'space': space})
+    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': TeamProject.objects.filter(space=space),
+                                                     'space': space})

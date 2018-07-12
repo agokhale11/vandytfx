@@ -67,9 +67,9 @@ tr:nth-child(odd) {background: white}
 
     <td>
         {% if project_team.project == None %}
-        <b>Unassigned</b>
+            <b>Unassigned</b>
         {% else %}
-        <b>{{ project_team.project.name }}</b>
+            <b>{{ project_team.project.name }}</b>
         {% endif %}
     </td>
     </tr>
@@ -77,6 +77,12 @@ tr:nth-child(odd) {background: white}
 {% endfor %}
 
 </table>
+
+    <div>
+        Unassigned Projects:
+
+        {{ leftover_projects }}
+    </div>
 
 <div id="shift">
     <br>
