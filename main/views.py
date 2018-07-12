@@ -844,6 +844,7 @@ def assign_teams_view(request, spaceurl):
 
         new_project_team.save()
 
+        """
         assignments = TeamProject.objects.filter(space=space)
         assigned_projects = []
         leftover_projects = []
@@ -855,10 +856,10 @@ def assign_teams_view(request, spaceurl):
         for project in projects:
             if project not in assigned_projects:
                 leftover_projects.append(project)
+        """
 
     return render(request, 'view_assignments.html', {'member': get_user(request),
-                                                     'list': TeamProject.objects.filter(space=space), 'space': space,
-                                                     'leftover_projects': leftover_projects})
+                                                     'list': TeamProject.objects.filter(space=space), 'space': space})
 
 
 @login_required(login_url="/login/")
