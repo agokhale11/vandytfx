@@ -167,3 +167,4 @@ class TeamProject(models.Model):
     project = models.ForeignKey(Project, default=None)
     team = models.ForeignKey(Team)
 
+
