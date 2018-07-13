@@ -161,6 +161,9 @@ class Preferences(models.Model):
         return project_points
 
 
+#   This model holds the assignment of a project to a team in a space
+#   - If there are more teams than projects, the project field is defaulted to None and assigned field is set to False
+#   - The assign_teams_view in views.py assigns projects to teams based on member preferences.
 class TeamProject(models.Model):
     space = models.ForeignKey(Space)
     project = models.ForeignKey(Project, default=None)

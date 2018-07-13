@@ -529,12 +529,6 @@ def delete_project_view(request, space_url, project_url):
     if space.teacher == member.username:
         project_name = project_url.replace('_', ' ')
         project = Project.objects.get(name=project_name, space=space)
-
-        if TeamProject.objects.filter(space=space, project=project).exists():
-            team_project = TeamProject.objects.get(space=space, project=project)
-            team_project.assigned = False
-            team_project.save()
-
         project.delete()
     return redirect("/space/" + space_url)
 
@@ -810,6 +804,7 @@ def send_reminders_view(request, space_url):
     return render(request, 'send_reminders.html', {'member': member, 'emails': emails, 'space': space})
 
 
+#View assigns projects to teams in a specific space based on individuals preferences of members on teams
 @login_required(login_url="/login/")
 def assign_teams_view(request, spaceurl):
     space = Space.objects.get(url=spaceurl)
@@ -869,7 +864,6 @@ def assign_teams_view(request, spaceurl):
     return render(request, 'view_assignments.html', {'member': get_user(request),
                                                      'list': TeamProject.objects.filter(space=space), 'space': space,
                                                      'teams':teams})
-
 
 @login_required(login_url="/login/")
 def view_assignments(request, spaceurl):
