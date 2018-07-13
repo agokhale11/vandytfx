@@ -837,10 +837,10 @@ def assign_teams_view(request, spaceurl):
 
         if Project.objects.filter(space=space, name=max_project).exists():
             team_project = Project.objects.get(name=max_project)
-            new_project_team = TeamProject(space=space, team=team, project=team_project)
+            new_project_team = TeamProject(space=space, team=team, project=team_project, assigned=True)
 
         else:
-            new_project_team = TeamProject(space=space, team=team)
+            new_project_team = TeamProject(space=space, team=team, assigned=False)
 
         new_project_team.save()
 
@@ -866,5 +866,7 @@ def assign_teams_view(request, spaceurl):
 @login_required(login_url="/login/")
 def view_assignments(request, spaceurl):
     space = Space.objects.get(url=spaceurl)
-    return render(request, 'view_assignments.html', {'member': get_user(request), 'list': TeamProject.objects.filter(space=space),
-                                                     'space': space})
+    teams = Team.objects.filter(space=space)
+    return render(request, 'view_assignments.html', {'member': get_user(request),
+                                                     'list': TeamProject.objects.filter(space=space), 'space': space,
+                                                     'teams': teams})
