@@ -67,7 +67,7 @@ tr:nth-child(odd) {background: white}
 
     <td>
         {% for project_team in list %}
-            {% if project_team.team == team and project_team.project.DoesNotExist %}
+            {% if project_team.team == team and project_team.project %}
                 <b>Unassigned</b>
             {% elif project_team.team == team %}
                 <b>{{ project_team.project.name }}</b>
