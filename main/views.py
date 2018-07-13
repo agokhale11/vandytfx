@@ -808,7 +808,7 @@ def send_reminders_view(request, space_url):
 def assign_teams_view(request, spaceurl):
     space = Space.objects.get(url=spaceurl)
     preferences = Preferences.objects.filter(space=space)
-    teams = Team.objects.filter(space=space)
+    teams = list(Team.objects.filter(space=space))
     projects = Project.objects.filter(space=space)
     teams = random.shuffle(teams)
 
