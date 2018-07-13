@@ -165,4 +165,4 @@ class TeamProject(models.Model):
     space = models.ForeignKey(Space)
     project = models.ForeignKey(Project, default=None)
     team = models.ForeignKey(Team)
-    assigned = models.BooleanField()
+    assigned = models.BooleanField(default=False)
