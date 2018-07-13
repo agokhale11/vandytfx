@@ -808,17 +808,15 @@ def send_reminders_view(request, space_url):
 def assign_teams_view(request, spaceurl):
     space = Space.objects.get(url=spaceurl)
     preferences = Preferences.objects.filter(space=space)
-    teams = Team.objects.filter(space=space)
+    teams = list(Team.objects.filter(space=space))
     projects = Project.objects.filter(space=space)
-    list_teams = []
-    for team in teams:
-        list_teams.append(team)
-    list_teams = random.shuffle(list_teams)
+
+    random.shuffle(teams)
 
     current_assignments = TeamProject.objects.filter(space=space)
     current_assignments.delete()
 
-    for team in list_teams:
+    for team in teams:
         team_rank = {}
         for project in projects:
             team_rank[project.name] = 0
@@ -864,7 +862,7 @@ def assign_teams_view(request, spaceurl):
 
     return render(request, 'view_assignments.html', {'member': get_user(request),
                                                      'list': TeamProject.objects.filter(space=space), 'space': space,
-                                                     'teams':list_teams})
+                                                     'teams':teams})
 
 
 @login_required(login_url="/login/")
