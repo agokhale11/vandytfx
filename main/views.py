@@ -810,6 +810,7 @@ def assign_teams_view(request, spaceurl):
     preferences = Preferences.objects.filter(space=space)
     teams = Team.objects.filter(space=space)
     projects = Project.objects.filter(space=space)
+    teams = random.shuffle(teams)
 
     current_assignments = TeamProject.objects.filter(space=space)
     current_assignments.delete()
