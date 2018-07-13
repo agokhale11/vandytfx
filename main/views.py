@@ -529,6 +529,11 @@ def delete_project_view(request, space_url, project_url):
     if space.teacher == member.username:
         project_name = project_url.replace('_', ' ')
         project = Project.objects.get(name=project_name, space=space)
+
+        if TeamProject.objects.filter(space=space, project=project).exists():
+            team_project = TeamProject.objects.get(space=space, project=project)
+            team_project.assigned = False
+
         project.delete()
     return redirect("/space/" + space_url)
 
