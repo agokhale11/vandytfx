@@ -58,19 +58,21 @@ tr:nth-child(odd) {background: white}
 
     </tr>
 
-{% for project_team in list %}
+{% for team in teams %}
 
     <tr>
     <td>
-        <b>{{ project_team.team }}</b>
+        <b>{{ team }}</b>
     </td>
 
     <td>
-        {% if project_team.project is None %}
-            <b>Unassigned</b>
-        {% else %}
-            <b>{{ project_team.project.name }}</b>
-        {% endif %}
+        {% for project_team in list %}
+            {% if project_team.team == team and project_team.project.DoesNotExist %}
+                <b>Unassigned</b>
+            {% elif project_team.team == team %}
+                <b>{{ project_team.project.name }}</b>
+            {% endif %}
+        {% endfor %}
     </td>
     </tr>
 
@@ -80,8 +82,6 @@ tr:nth-child(odd) {background: white}
 
     <div align="center">
         Unassigned Projects:
-
-        {{ leftover_projects }}
     </div>
 
 <div id="shift">
