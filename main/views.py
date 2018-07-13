@@ -533,6 +533,7 @@ def delete_project_view(request, space_url, project_url):
         if TeamProject.objects.filter(space=space, project=project).exists():
             team_project = TeamProject.objects.get(space=space, project=project)
             team_project.assigned = False
+            team_project.save()
 
         project.delete()
     return redirect("/space/" + space_url)
