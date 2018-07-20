@@ -865,7 +865,10 @@ def assign_teams_view(request, spaceurl):
         return render(request, 'view_assignments.html', {'member': get_user(request),
                                                      'list': TeamProject.objects.filter(space=space), 'space': space,
                                                      'teams':teams})
-    return redirect('/view_assignments')
+    
+    return render(request, 'view_assignments.html', {'member': get_user(request),
+                                                     'list': TeamProject.objects.filter(space=space), 'space': space,
+                                                     'teams':teams})
 
 @login_required(login_url="/login/")
 def view_assignments(request, spaceurl):
