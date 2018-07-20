@@ -807,12 +807,12 @@ def send_reminders_view(request, space_url):
 #View assigns projects to teams in a specific space based on individuals preferences of members on teams
 @login_required(login_url="/login/")
 def assign_teams_view(request, spaceurl):
+    space = Space.objects.get(url=spaceurl)
+    preferences = Preferences.objects.filter(space=space)
+    teams = list(Team.objects.filter(space=space))
+    projects = Project.objects.filter(space=space)
 
     if request.method == 'POST':
-        space = Space.objects.get(url=spaceurl)
-        preferences = Preferences.objects.filter(space=space)
-        teams = list(Team.objects.filter(space=space))
-        projects = Project.objects.filter(space=space)
 
         random.shuffle(teams)
 
@@ -865,7 +865,7 @@ def assign_teams_view(request, spaceurl):
         return render(request, 'view_assignments.html', {'member': get_user(request),
                                                      'list': TeamProject.objects.filter(space=space), 'space': space,
                                                      'teams':teams})
-    
+
     return render(request, 'view_assignments.html', {'member': get_user(request),
                                                      'list': TeamProject.objects.filter(space=space), 'space': space,
                                                      'teams':teams})
