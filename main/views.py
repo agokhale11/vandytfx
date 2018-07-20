@@ -833,7 +833,7 @@ def assign_teams_view(request, spaceurl):
                         for project in member_rankings:
                             team_rank[project] = team_rank[project] + member_rankings[project]
 
-            if request.POST == 'representative':
+            else:
                 members = list(Member.objects.filter(teams=team))
                 random.shuffle(members)
                 assigned = False
