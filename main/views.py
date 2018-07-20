@@ -804,7 +804,7 @@ def send_reminders_view(request, space_url):
     return render(request, 'send_reminders.html', {'member': member, 'emails': emails, 'space': space})
 
 
-#View assigns projects to teams in a specific space based on individuals preferences of members on teams
+# View assigns projects to teams in a specific space based on individuals preferences of members on teams
 @login_required(login_url="/login/")
 def assign_teams_view(request, spaceurl):
     space = Space.objects.get(url=spaceurl)
@@ -812,63 +812,56 @@ def assign_teams_view(request, spaceurl):
     teams = list(Team.objects.filter(space=space))
     projects = Project.objects.filter(space=space)
 
-    if request.method == 'POST':
+    random.shuffle(teams)
 
-        random.shuffle(teams)
+    current_assignments = TeamProject.objects.filter(space=space)
+    current_assignments.delete()
 
-        current_assignments = TeamProject.objects.filter(space=space)
-        current_assignments.delete()
+    for team in teams:
+        team_rank = {}
+        for project in projects:
+            team_rank[project.name] = 0
 
-        for team in teams:
-            team_rank = {}
-            for project in projects:
-                team_rank[project.name] = 0
+        if request.POST['assignment'] == 'comprehensive':
+            members = Member.objects.filter(teams=team)     #need to revise this
+            for member in members:
+                if preferences.filter(member=member).exists():
+                    member_preferences = preferences.get(member=member, space=space)
+                    member_rankings = member_preferences.project_preferences_as_names()
+                    for project in member_rankings:
+                        team_rank[project] = team_rank[project] + member_rankings[project]
 
-            if 'comprehensive' in request.POST:
-                members = Member.objects.filter(teams=team)     #need to revise this
-                for member in members:
-                    if preferences.filter(member=member).exists():
-                        member_preferences = preferences.get(member=member, space=space)
-                        member_rankings = member_preferences.project_preferences_as_names()
-                        for project in member_rankings:
-                            team_rank[project] = team_rank[project] + member_rankings[project]
+        if request.POST['assignment'] == 'representative':
+            members = list(Member.objects.filter(teams=team))
+            random.shuffle(members)
+            assigned = False
+            for member in members:
+                if preferences.filter(member=member).exists() and not assigned:
+                    assigned = True
+                    member_preferences = preferences.get(member=member, space=space)
+                    member_rankings = member_preferences.project_preferences_as_names()
+                    for project in member_rankings:
+                        team_rank[project] = team_rank[project] + member_rankings[project]
 
-            if 'representative' in request.POST:
-                members = list(Member.objects.filter(teams=team))
-                random.shuffle(members)
-                assigned = False
-                for member in members:
-                    if preferences.filter(member=member).exists() and not assigned:
-                        assigned = True
-                        member_preferences = preferences.get(member=member, space=space)
-                        member_rankings = member_preferences.project_preferences_as_names()
-                        for project in member_rankings:
-                            team_rank[project] = team_rank[project] + member_rankings[project]
+        max_value = -1
+        max_project = ""
+        for name in team_rank:
+            test_project = Project.objects.get(name=name)
+            if team_rank[name] > max_value and not TeamProject.objects.filter(space=space, project=test_project):
+                max_value = team_rank[name]
+                max_project = name
 
-            max_value = -1
-            max_project = ""
-            for name in team_rank:
-                test_project = Project.objects.get(name=name)
-                if team_rank[name] > max_value and not TeamProject.objects.filter(space=space, project=test_project):
-                    max_value = team_rank[name]
-                    max_project = name
+        if Project.objects.filter(space=space, name=max_project).exists():
+            team_project = Project.objects.get(name=max_project)
+            new_project_team = TeamProject(space=space, team=team, project=team_project, assigned=True)
 
-            if Project.objects.filter(space=space, name=max_project).exists():
-                team_project = Project.objects.get(name=max_project)
-                new_project_team = TeamProject(space=space, team=team, project=team_project, assigned=True)
+        else:
+            new_project_team = TeamProject(space=space, team=team, assigned=False)
 
-            else:
-                new_project_team = TeamProject(space=space, team=team, assigned=False)
-
-            new_project_team.save()
+        new_project_team.save()
 
         return render(request, 'view_assignments.html', {'member': get_user(request),
-                                                     'list': TeamProject.objects.filter(space=space), 'space': space,
-                                                     'teams':teams})
-
-    return render(request, 'view_assignments.html', {'member': get_user(request),
-                                                     'list': TeamProject.objects.filter(space=space), 'space': space,
-                                                     'teams':teams})
+                                                     'list': TeamProject.objects.filter(space=space), 'space': space,'teams':teams})
 
 @login_required(login_url="/login/")
 def view_assignments(request, spaceurl):
