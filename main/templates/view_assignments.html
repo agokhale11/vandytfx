@@ -79,12 +79,14 @@ tr:nth-child(odd) {background: white}
 {% endfor %}
 
 </table>
-<form method="post">
+
+<form action="/{{ space.url }}/assign_teams/" method="post">
     {% csrf_token %}
+
     <div id="shift">
         <br>
         <br>
-        <button class="btn btn-large" id="center_button" name="assignment" value="comprehensive" onclick="window.location.href='/{{ space.url }}/assign_teams/'"><b>Assign Teams based on all member Preferences</b></button>
+        <button class="btn btn-large" id="center_button" value="comprehensive"><b>Assign Teams based on all member Preferences</b></button>
         <br>
         <br>
     </div>
@@ -93,7 +95,7 @@ tr:nth-child(odd) {background: white}
     <div id="shift">
         <br>
         <br>
-        <button class="btn btn-large" id="center_button" name="assignment" value="representative" onclick="window.location.href='/{{ space.url }}/assign_teams/'"><b>Assign Teams based on Team Representative</b></button>
+        <button class="btn btn-large" id="center_button" value="representative"><b>Assign Teams based on Team Representative</b></button>
         <br>
         <br>
     </div>
