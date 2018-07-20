@@ -79,19 +79,29 @@ tr:nth-child(odd) {background: white}
 {% endfor %}
 
 </table>
+<form method="post">
+    <div id="shift">
+        <br>
+        <br>
+        <button class="btn btn-large" id="center_button" value="comprehensive" onclick="window.location.href='/{{ space.url }}/assign_teams/'"><b>Assign Teams based on all member Preferences</b></button>
+        <br>
+        <br>
+    </div>
 
-<div id="shift">
-    <br>
-    <br>
-    <button class="btn btn-large" id="center_button" onclick="window.location.href='/{{ space.url }}/assign_teams/'"><b>Assign Teams</b></button>
-    <br>
-    <br>
-</div>
+
+    <div id="shift">
+        <br>
+        <br>
+        <button class="btn btn-large" id="center_button" value="representative" onclick="window.location.href='/{{ space.url }}/assign_teams/'"><b>Assign Teams based on Team Representative</b></button>
+        <br>
+        <br>
+    </div>
+</form>
 
 <div align="center">
         <br>
         <br>
-        Note: If a project was recently deleted from the space, the above button must be selected to properly re-assign teams
+        Note: If a project was recently deleted from the space, one of the above buttons must be selected to properly re-assign teams
 </div>
 
 {% endblock %}
