@@ -845,10 +845,10 @@ def assign_comprehensive_teams_view(request, spaceurl):
 
         if Project.objects.filter(space=space, name=max_project).exists():
             team_project = Project.objects.get(name=max_project)
-            new_project_team = TeamProject(space=space, team=team, project=team_project, assigned=True)
+            new_project_team = TeamProject(space=space, team=team, project=team_project, assigned=True, representative=None)
 
         else:
-            new_project_team = TeamProject(space=space, team=team, assigned=False)
+            new_project_team = TeamProject(space=space, team=team, assigned=False, representative=None)
 
         new_project_team.save()
 
