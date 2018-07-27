@@ -169,3 +169,4 @@ class TeamProject(models.Model):
     project = models.ForeignKey(Project, default=None)
     team = models.ForeignKey(Team)
     assigned = models.BooleanField(default=False)
+    representative = models.ForeignKey(Member, default=None)

@@ -822,7 +822,12 @@ def assign_comprehensive_teams_view(request, spaceurl):
         for project in projects:
             team_rank[project.name] = 0
 
-        members = Member.objects.filter(teams=team)     #need to revise this
+        all_members = list(Member.objects.filter(space=space))
+        members = []
+        for user in all_members:
+            if team in user.teams:
+                members.append(user)
+
         for member in members:
             if preferences.filter(member=member).exists():
                 member_preferences = preferences.get(member=member, space=space)
@@ -869,9 +874,16 @@ def assign_representative_teams_view(request, spaceurl):
         for project in projects:
             team_rank[project.name] = 0
 
-        members = list(Member.objects.filter(teams=team))
+        all_members = list(Member.objects.filter(space=space))
+        members = []
+
+        for user in all_members:
+            if team in user.teams:
+                members.append(user)
+
         random.shuffle(members)
         assigned = False
+
         for member in members:
             if preferences.filter(member=member).exists() and not assigned:
                 assigned = True
@@ -890,10 +902,10 @@ def assign_representative_teams_view(request, spaceurl):
 
         if Project.objects.filter(space=space, name=max_project).exists():
             team_project = Project.objects.get(name=max_project)
-            new_project_team = TeamProject(space=space, team=team, project=team_project, assigned=True)
+            new_project_team = TeamProject(space=space, team=team, project=team_project, assigned=True, representative=member)
 
         else:
-            new_project_team = TeamProject(space=space, team=team, assigned=False)
+            new_project_team = TeamProject(space=space, team=team, assigned=False, representative=None)
 
         new_project_team.save()
 
