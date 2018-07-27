@@ -822,11 +822,7 @@ def assign_comprehensive_teams_view(request, spaceurl):
         for project in projects:
             team_rank[project.name] = 0
 
-        all_members = list(Member.objects.filter(space=space))
-        members = []
-        for user in all_members:
-            if team in user.teams:
-                members.append(user)
+        members = list(Member.objects.filter(teams=team))
 
         for member in members:
             if preferences.filter(member=member).exists():
@@ -874,12 +870,7 @@ def assign_representative_teams_view(request, spaceurl):
         for project in projects:
             team_rank[project.name] = 0
 
-        all_members = list(Member.objects.filter(space=space))
-        members = []
-
-        for user in all_members:
-            if team in user.teams:
-                members.append(user)
+        members = list(Member.objects.filter(teams=team))
 
         random.shuffle(members)
         assigned = False
