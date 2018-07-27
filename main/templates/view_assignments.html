@@ -72,7 +72,7 @@ tr:nth-child(odd) {background: white}
             {% elif project_team.team == team and project_team.assigned %}
                 <b>{{ project_team.project.name }}</b>
             {% endif %}
-            {% if project_team.representative is not None %}
+            {% if project_team.representative %}
                 <b>   Representative: {{ project_team.representative }} </b>
             {% endif %}
         {% endfor %}

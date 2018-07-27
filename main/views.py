@@ -874,10 +874,12 @@ def assign_representative_teams_view(request, spaceurl):
 
         random.shuffle(members)
         assigned = False
+        representative = None
 
         for member in members:
             if preferences.filter(member=member).exists() and not assigned:
                 assigned = True
+                representative = member
                 member_preferences = preferences.get(member=member, space=space)
                 member_rankings = member_preferences.project_preferences_as_names()
                 for project in member_rankings:
@@ -893,7 +895,7 @@ def assign_representative_teams_view(request, spaceurl):
 
         if Project.objects.filter(space=space, name=max_project).exists():
             team_project = Project.objects.get(name=max_project)
-            new_project_team = TeamProject(space=space, team=team, project=team_project, assigned=True, representative=member)
+            new_project_team = TeamProject(space=space, team=team, project=team_project, assigned=True, representative=representative)
 
         else:
             new_project_team = TeamProject(space=space, team=team, assigned=False, representative=None)
