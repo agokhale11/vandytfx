@@ -69,11 +69,10 @@ tr:nth-child(odd) {background: white}
         {% for project_team in list %}
             {% if project_team.team == team and not project_team.assigned %}
                 <b>Unassigned</b>
+            {% elif project_team.team == team and project_team.assigned and project_team.representative%}
+                <b>{{ project_team.project.name }},  Representative: {{ project_team.representative }}</b>
             {% elif project_team.team == team and project_team.assigned %}
                 <b>{{ project_team.project.name }}</b>
-            {% endif %}
-            {% if project_team.representative %}
-                <b>   Representative: {{ project_team.representative }} </b>
             {% endif %}
         {% endfor %}
     </td>
