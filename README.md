@@ -57,7 +57,7 @@ It is currently hosted at https://vandy-tfx.herokuapp.com<br>
 
 
 <h2>Support</h2>
-Contact Joshua Stafford (joshua.o.stafford@vanderbilt.edu) with any questions about this project.
+Contact Aditya Gokhale (aditya.p.gokhale@vanderbilt.edu) or Joshua Stafford (joshua.o.stafford@vanderbilt.edu) with any questions about this project.
 
 <b>Extra Files</b>
 - Procfile: used for hosting with Heroku (Needed for Django Application)
