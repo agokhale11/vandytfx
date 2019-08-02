@@ -2,7 +2,6 @@
 
 TFx (Team Formation Exchange) is a web platform that will form teams of users based off these users' preferences.
 
-It is currently hosted at https://vandy-tfx.herokuapp.com<br>
 <h2>Overview</h2>
 
 <b>Examples of situations for this application:</b>
